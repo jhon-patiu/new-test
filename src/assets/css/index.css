@@ -1,0 +1,15 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+/* all css imports should be here */
+/* note: avoid writing css code here directly */
+
+/* global */
+@import "./global/vars.css";
+@import "./global/test-global.css"; /* TODO : remove/replace this */
+
+/* components */
+

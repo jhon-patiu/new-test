@@ -1,0 +1,49 @@
+{
+  "name": "11ty-tailwind-hubspot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "dir": "hubspot-theme-folder-name" 
+  },
+  "scripts": {
+    "clean": "del _site",
+    "watch-css": "postcss ./src/assets/css/index.css -o ./_site/css/main.css -w",
+    "watch-js": "npx esbuild ./src/assets/js/index.js --outfile=./_site/js/main.js --bundle --target=es2018 --watch",
+    "start": "cross-env NODE_ENV=development del-cli ./_site && concurrently \"cross-env ELEVENTY_ENV=development eleventy --serve\"  \"npm:watch-*\"",
+		"build-static-css": "cross-var cross-env NODE_ENV=production postcss ./src/assets/css/index.css -o \"$npm_package_config_dir/css/main.css\" --minify",
+		"build-static-js": "cross-var npx esbuild ./src/assets/js/index.js --outfile=\"$npm_package_config_dir/js/main.js\"  --bundle --target=es2018 --minify",
+		"build:static": "cross-env NODE_ENV=production concurrently \"npm:build-static-*\" && ELEVENTY_ENV=production eleventy",
+    "build-css": "cross-var cross-env NODE_ENV=production postcss ./src/assets/css/index.css -o \"$npm_package_config_dir/dist/main.css\" --minify",
+    "build-js": "cross-var npx esbuild ./src/assets/js/index.js --outfile=\"$npm_package_config_dir/dist/main.js\"  --bundle --target=es2018 --minify",
+    "build": "cross-env NODE_ENV=production concurrently \"npm:build-*\" && ELEVENTY_ENV=production eleventy", 
+    "lint": "eslint assets && prettier --list-different 'assets/**/*.js' 'assets/**/*.json'",
+    "upload-theme": "cross-env hs upload $npm_package_config_dir $npm_package_config_dir",
+    "fetch-theme": "cross-var cross-env hs fetch $npm_package_config_dir $npm_package_config_dir",
+    "fetch-theme:overwrite": "cross-var cross-env del ./thinkstep-hubspot-theme && cross-var hs fetch $npm_package_config_dir $npm_package_config_dir --overwrite",
+    "build:upload": "cross-env npm run build && cross-var hs upload \"$npm_package_config_dir/dist\" \"$npm_package_config_dir/dist\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.2",
+    "autoprefixer": "^10.4.7",
+    "concurrently": "^7.2.1",
+    "cross-env": "^7.0.3",
+    "cross-var": "^1.1.0",
+    "cssnano": "^5.1.12",
+    "del-cli": "^4.0.1",
+    "esbuild": "^0.14.39",
+    "eslint": "^8.19.0",
+    "postcss": "^8.4.14",
+    "postcss-cli": "^9.1.0",
+    "postcss-import": "^14.1.0",
+    "prettier": "^2.7.1",
+    "tailwindcss": "^3.0.24"
+  },
+  "dependencies": {
+    "swiper": "^8.2.2"
+  }
+}
