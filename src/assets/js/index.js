@@ -4,4 +4,4 @@
 // import "./global/test-global";
 
 // components
-// import "./components/test-component"
+import "./components/test-component"

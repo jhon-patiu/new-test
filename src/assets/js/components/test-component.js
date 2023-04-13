@@ -1,1 +1,1 @@
-// console.log("this is a test component");
+console.log("this is a test component- REMOVE ME");
