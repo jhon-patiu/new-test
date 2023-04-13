@@ -4,25 +4,24 @@
   "description": "",
   "main": "index.js",
   "config": {
-    "dir": "hubspot-theme-folder-name" 
+    "dir": "_site"
   },
   "scripts": {
     "clean": "del _site",
     "watch-css": "postcss ./src/assets/css/index.css -o ./_site/css/main.css -w",
     "watch-js": "npx esbuild ./src/assets/js/index.js --outfile=./_site/js/main.js --bundle --target=es2018 --watch",
     "start": "cross-env NODE_ENV=development del-cli ./_site && concurrently \"cross-env ELEVENTY_ENV=development eleventy --serve\"  \"npm:watch-*\"",
-		"build-static-css": "cross-var cross-env NODE_ENV=production postcss ./src/assets/css/index.css -o \"$npm_package_config_dir/css/main.css\" --minify",
-		"build-static-js": "cross-var npx esbuild ./src/assets/js/index.js --outfile=\"$npm_package_config_dir/js/main.js\"  --bundle --target=es2018 --minify",
-		"build:static": "cross-env NODE_ENV=production concurrently \"npm:build-static-*\" && ELEVENTY_ENV=production eleventy",
-    "build-css": "cross-var cross-env NODE_ENV=production postcss ./src/assets/css/index.css -o \"$npm_package_config_dir/dist/main.css\" --minify",
-    "build-js": "cross-var npx esbuild ./src/assets/js/index.js --outfile=\"$npm_package_config_dir/dist/main.js\"  --bundle --target=es2018 --minify",
-    "build": "cross-env NODE_ENV=production concurrently \"npm:build-*\" && ELEVENTY_ENV=production eleventy", 
+    "build-css": "cross-var cross-env NODE_ENV=production postcss ./src/assets/css/index.css -o \"$npm_package_config_dir/${npm_config_output_dir:-css}/main.css\" --minify",
+    "build-js": "cross-var npx esbuild ./src/assets/js/index.js --outfile=\"$npm_package_config_dir/${npm_config_output_dir:-js}/main.js\"  --bundle --target=es2018 --minify",
+    "build-assets": "npm run build-css && npm run build-js",
+    "build": "cross-var cross-env NODE_ENV=production concurrently \"npm:build-assets\" && ELEVENTY_ENV=production eleventy",
+    "build:dist": "npm run build --output_dir=dist && npm run clean",
     "lint": "eslint assets && prettier --list-different 'assets/**/*.js' 'assets/**/*.json'",
     "upload-theme": "cross-env hs upload $npm_package_config_dir $npm_package_config_dir",
     "fetch-theme": "cross-var cross-env hs fetch $npm_package_config_dir $npm_package_config_dir",
     "fetch-theme:overwrite": "cross-var cross-env del ./thinkstep-hubspot-theme && cross-var hs fetch $npm_package_config_dir $npm_package_config_dir --overwrite",
-    "build:upload": "cross-env npm run build && cross-var hs upload \"$npm_package_config_dir/dist\" \"$npm_package_config_dir/dist\""
-  },
+    "build:upload": "cross-env npm run build:dist && cross-var hs upload \"$npm_package_config_dir/dist\" \"$npm_package_config_dir/dist\""
+},
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -47,3 +46,4 @@
     "swiper": "^8.2.2"
   }
 }
+
